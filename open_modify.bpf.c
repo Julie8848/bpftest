@@ -63,7 +63,8 @@ int handle_open_exit(struct trace_event_raw_sys_exit *ctx)
 
     eventp->ret = ctx->ret;
 
-    struct event *rb_event = bpf_ringbuf_reserve(&rb, sizeof(struct event), 0);
+    struct event *rb_event;
+    rb_event = bpf_ringbuf_reserve(&rb, sizeof(*rb_event), 0);
     if (!rb_event) {
         bpf_map_delete_elem(&start, &pid);
         return 0;
